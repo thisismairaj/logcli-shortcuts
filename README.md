@@ -2,8 +2,7 @@
 
 <p align="center">
   Query Grafana Loki from your terminal instead of the UI — a one-command installer for<br/>
-  <code>logcli</code>, plus two small shell functions for tailing and grepping logs, and the two
-  gotchas that actually take time to find.
+  <code>logcli</code>, plus two small shell functions for tailing and grepping logs.
 </p>
 
 ---
@@ -95,44 +94,6 @@ function ast { lt '{namespace="myorg-backend-stag", service_name="myorg-api"}' }
 # ~/.zshrc / ~/.bashrc
 adt() { lt '{namespace="myorg-backend-dev", service_name="myorg-api"}'; }
 ast() { lt '{namespace="myorg-backend-stag", service_name="myorg-api"}'; }
-```
-
----
-
-## Gotchas
-
-### Windows + VPN split-DNS
-
-`logcli`'s Windows build uses Go's own DNS resolver, which doesn't see a VPN's split-DNS rule the
-way Windows' own resolver does (via NRPT — `Get-DnsClientNrptPolicy` shows the rule). This isn't
-Loki-specific: it affects most Go-built CLIs run over a split-DNS VPN on Windows.
-
-If `logcli` fails with a DNS lookup error but `Resolve-DnsName <your-loki-host>` succeeds, pin the
-hostname in your hosts file (needs admin):
-
-```powershell
-Add-Content "$env:windir\System32\drivers\etc\hosts" "`n<ip-from-Resolve-DnsName> <your-loki-host>"
-```
-
-If logs stop resolving later, that IP may have rotated — re-run `Resolve-DnsName` and update the
-entry.
-
-### PowerShell 5.1 strips embedded quotes
-
-Windows PowerShell 5.1 (`powershell.exe`, the Windows default — check with `$PSVersionTable.PSVersion`)
-strips embedded double quotes when invoking a native exe, so a selector like
-`'{namespace="x"}'` silently loses its quotes before reaching `logcli`, which then fails to parse
-the query. This isn't Loki-specific either — it bites any native exe called from PS 5.1 with
-quoted arguments.
-
-`install.ps1`'s `lt`/`lg` already detect PS 5.1 (`$PSVersionTable.PSVersion.Major -lt 7`) and
-escape embedded quotes before calling `logcli.exe`, so this is handled for you if you installed
-via the script. If you're calling `logcli` directly from PS 5.1 yourself, either switch to
-PowerShell 7 (`winget install Microsoft.PowerShell` — plain quoting works there), or escape
-manually:
-
-```powershell
-logcli query "{namespace=\`"backend-dev\`"}" --since=1h
 ```
 
 ---

@@ -66,4 +66,4 @@ foreach ($profilePath in @(
 }
 
 Write-Output "`nDone. Open a NEW terminal, then test with: logcli labels --since=24h"
-Write-Output "If that fails with a DNS lookup error behind a split-DNS VPN, see the README's 'VPN split-DNS gotcha' section."
+Write-Output "If that fails with a DNS lookup error, you may be behind a split-DNS VPN that Go's resolver can't see - check whether Resolve-DnsName for the same host succeeds."
