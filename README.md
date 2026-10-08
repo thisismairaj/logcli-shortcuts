@@ -15,11 +15,21 @@ through a browser for every query is slow. `logcli` gets you there from the term
 is the install step plus two tiny ergonomic wrappers (`lt` for tailing, `lg` for grepping) so you
 don't retype `logcli query '{...}' --since=... --follow` every time.
 
-It's intentionally Loki-specific, not a generic observability abstraction — and intentionally
-*not* tied to any particular label schema. `lt`/`lg` take a raw [LogQL selector](https://grafana.com/docs/loki/latest/query/log_queries/)
-string, because label names (`namespace`, `service_name`, `app`, `job`, whatever) are entirely
-deployment-specific. You wire up your own one-word shortcuts for your own labels on top — see
+It's intentionally *not* tied to any particular label schema. `lt`/`lg` take a raw
+[LogQL selector](https://grafana.com/docs/loki/latest/query/log_queries/) string, because label
+names (`namespace`, `service_name`, `app`, `job`, whatever) are entirely deployment-specific. You
+wire up your own one-word shortcuts for your own labels on top — see
 [Layering your own shortcuts](#layering-your-own-shortcuts) below.
+
+## Use it with a coding agent
+
+This is the real reason to have `logcli`/`lt`/`lg` on your `PATH` rather than only using the
+Grafana UI: a coding agent with shell access (Claude Code, etc.) can query your logs directly as
+part of troubleshooting. Ask it something like "check the api service's logs for the last hour
+for anything related to this timeout" and it runs `lg`/`logcli` itself, reads the actual log
+lines, and reasons about them alongside your code — instead of you tabbing over to Grafana,
+copying log lines, and pasting them back in. Natural language in, real log context out, no
+context-switch.
 
 ---
 
