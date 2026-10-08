@@ -1,7 +1,8 @@
 <h1 align="center">logcli-shortcuts</h1>
 
 <p align="center">
-  Query Grafana Loki from your terminal instead of the UI — a one-command installer for<br/>
+  Query Grafana Loki from your terminal instead of the UI — and hand it to a coding agent for<br/>
+  natural-language log search while troubleshooting. A one-command installer for
   <code>logcli</code>, plus two small shell functions for tailing and grepping logs.
 </p>
 
@@ -33,6 +34,9 @@ context-switch.
 ---
 
 ## Quick install
+
+The only thing you need from your devops/infra team is your **Loki server's URL** (to set as
+`LOKI_ADDR`) — everything else below is self-serve.
 
 **Windows (PowerShell):** paste this in a PowerShell window:
 
