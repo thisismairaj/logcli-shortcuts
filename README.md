@@ -31,6 +31,19 @@ lines, and reasons about them alongside your code — instead of you tabbing ove
 copying log lines, and pasting them back in. Natural language in, real log context out, no
 context-switch.
 
+## Why this matters
+
+The handful of characters `lt` and `lg` save you isn't the point, that's
+a nice-to-have at best. The real shift is what it unlocks for a coding
+agent: raw `logcli` on your `PATH` means it can go pull the actual log
+lines itself, mid-debug, instead of you copying them out of Grafana by
+hand.
+
+**One honest caveat:** those log lines land in the agent's context right
+alongside your code. If anything in your logs is sensitive (tokens,
+customer data, internal hostnames), keep that in mind before pointing an
+agent at a wide-open selector.
+
 ---
 
 ## Quick install
